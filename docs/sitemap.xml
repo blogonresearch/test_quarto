@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://blogonresearch.github.io/test_quarto/index.html</loc>
+    <lastmod>2022-12-25T04:50:10.798Z</lastmod>
+  </url>
+  <url>
+    <loc>https://blogonresearch.github.io/test_quarto/about.html</loc>
+    <lastmod>2022-12-25T04:37:43.969Z</lastmod>
+  </url>
+  <url>
+    <loc>https://blogonresearch.github.io/test_quarto/posts/welcome/index.html</loc>
+    <lastmod>2022-12-25T04:41:31.317Z</lastmod>
+  </url>
+  <url>
+    <loc>https://blogonresearch.github.io/test_quarto/posts/post-with-code/index.html</loc>
+    <lastmod>2022-12-25T04:41:40.372Z</lastmod>
+  </url>
+  <url>
+    <loc>https://blogonresearch.github.io/test_quarto/posts/plot_mod_ggplot2/index.html</loc>
+    <lastmod>2022-12-25T04:49:21.189Z</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>test_quarto</title>
+<link>https://blogonresearch.github.io/test_quarto/index.html</link>
+<atom:link href="https://blogonresearch.github.io/test_quarto/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.2.280</generator>
+<lastBuildDate>Sat, 24 Dec 2022 16:00:00 GMT</lastBuildDate>
+<item>
+  <title>Post With Code</title>
+  <dc:creator>Harlow Malloc</dc:creator>
+  <link>https://blogonresearch.github.io/test_quarto/posts/post-with-code/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is a post with executable code.</p>
+
+
+
+ ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <guid>https://blogonresearch.github.io/test_quarto/posts/post-with-code/index.html</guid>
+  <pubDate>Sat, 24 Dec 2022 16:00:00 GMT</pubDate>
+  <media:content url="https://blogonresearch.github.io/test_quarto/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Welcome To My Blog</title>
+  <dc:creator>Tristan O&#39;Malley</dc:creator>
+  <link>https://blogonresearch.github.io/test_quarto/posts/welcome/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is the first post in a Quarto blog. Welcome!</p>
+<p><img src="https://blogonresearch.github.io/test_quarto/posts/welcome/thumbnail.jpg" class="img-fluid"></p>
+<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+
+
+
+ ]]></description>
+  <category>news</category>
+  <guid>https://blogonresearch.github.io/test_quarto/posts/welcome/index.html</guid>
+  <pubDate>Wed, 21 Dec 2022 16:00:00 GMT</pubDate>
+  <media:content url="https://blogonresearch.github.io/test_quarto/posts/welcome/thumbnail.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Plotting Moderation Effects With ggplot2</title>
+  <dc:creator>Shu Fai Cheung</dc:creator>
+  <link>https://blogonresearch.github.io/test_quarto/posts/plot_mod_ggplot2/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>There are some R packages that help researchers to plot moderation (interaction) effects: The linear relations between <code>x</code> (independent variable / predictor) and <code>y</code> (dependent variable / outcome variable) for two or more levels of <code>w</code> (moderator). For example, I have been using <a href="https://pbreheny.github.io/visreg/">visreg</a> for multiple regression models fitted by <code>lm()</code> for a long time. It is simple to use and supports both base R graphics and <code>ggplot2</code>. <a href="https://sfcheung.github.io/stdmod/index.html">stdmod</a>, which I maintained, also has the function <a href="https://sfcheung.github.io/stdmod/articles/plotmod.html">plotmod</a> for plotting simple effects in moderated regression. For structural equation modelling, <a href="https://github.com/simsem/semTools/wiki">semTools</a> can be used to plot interaction for latent variables using <a href="https://rdrr.io/cran/semTools/man/plotProbe.html">plotProbe()</a>. <code>plotProbe()</code> can also be used to on observed variables using this <a href="https://groups.google.com/g/lavaan/c/h_LHQUFbx0k/m/jmQwRJEqBAAJ">workaround</a>.</p>
+<p>However, there may be case in which all we need is just two or more lines, and all we have are the simple effects: Two or more sets of intercepts of slopes.</p>
+<p>This is how to plot the simple effect:</p>
+<p>Suppose we want to plot the simple effects of <code>x</code> on <code>y</code> conditional on <code>w</code> (the moderator). From the output of some functions, we have the slopes and intercepts when <code>w</code> is “Low” or “High”:</p>
+<p><code>w</code> is “Low”: intercept = 2, slope = 1</p>
+<p><code>w</code> is “High”: intercept = 3, slope = 2</p>
+<p>Write a simple function to compute the points</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># Simple regression model</span></span>
+<span id="cb1-2">xyline <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(x, a, b) {a <span class="sc" style="color: #5E5E5E;">+</span> b <span class="sc" style="color: #5E5E5E;">*</span> x}</span></code></pre></div>
+</div>
+<p>Set the range for <code>x</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># Range of x</span></span>
+<span id="cb2-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">10</span>)</span></code></pre></div>
+</div>
+<p>Compute the predicted values of <code>y</code> at the lower and upper limit of the range of <code>x</code>, for each level of <code>w</code>, when all other predictors of <code>y</code> in the model, if any, are equal to zero:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># Generate the two points when moderator = "Low"</span></span>
+<span id="cb3-2">dat0 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(<span class="at" style="color: #657422;">Moderator =</span> <span class="st" style="color: #20794D;">"Low"</span>,</span>
+<span id="cb3-3">                   <span class="at" style="color: #657422;">x =</span> x,</span>
+<span id="cb3-4">                   <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">xyline</span>(x, <span class="at" style="color: #657422;">a =</span> <span class="dv" style="color: #AD0000;">2</span>, <span class="at" style="color: #657422;">b =</span> <span class="dv" style="color: #AD0000;">1</span>))</span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;"># Generate the two points when moderator = "High"</span></span>
+<span id="cb3-6">dat1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(<span class="at" style="color: #657422;">Moderator =</span> <span class="st" style="color: #20794D;">"High"</span>,</span>
+<span id="cb3-7">                   <span class="at" style="color: #657422;">x =</span> x,</span>
+<span id="cb3-8">                   <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">xyline</span>(x, <span class="at" style="color: #657422;">a =</span> <span class="dv" style="color: #AD0000;">3</span>, <span class="at" style="color: #657422;">b =</span> <span class="dv" style="color: #AD0000;">2</span>))</span></code></pre></div>
+</div>
+<p>Combine the datasets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">dat <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">rbind</span>(dat0, dat1)</span>
+<span id="cb4-2">dat</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Moderator  x  y
+1       Low  0  2
+2       Low 10 12
+3      High  0  3
+4      High 10 23</code></pre>
+</div>
+</div>
+<p>Draw the lines using <code>ggplot2</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;">library</span>(ggplot2)</span>
+<span id="cb6-2">p <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(dat, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> x, <span class="at" style="color: #657422;">y =</span> y, <span class="at" style="color: #657422;">color =</span> Moderator)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-3">            <span class="fu" style="color: #4758AB;">geom_line</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-4">            <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Low"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="st" style="color: #20794D;">"blue"</span>, <span class="st" style="color: #20794D;">"High"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="st" style="color: #20794D;">"red"</span>))</span>
+<span id="cb6-5">p</span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blogonresearch.github.io/test_quarto/posts/plot_mod_ggplot2/index_files/figure-html/plot_original-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot can then be modified as necessary:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">p2 <span class="ot" style="color: #003B4F;">&lt;-</span> p <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">xlab</span>(<span class="st" style="color: #20794D;">"Independent Variable"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-2">          <span class="fu" style="color: #4758AB;">ylab</span>(<span class="st" style="color: #20794D;">"Dependent Variable"</span>)</span>
+<span id="cb7-3">p2</span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blogonresearch.github.io/test_quarto/posts/plot_mod_ggplot2/index_files/figure-html/plot_edited-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This solution can be used for multiple regression or structural equation modelling.</p>
+<p>Though not as elegant as using packages devoted to plotting moderation effects, this solution may be good enough for some simple scenarios. I believe it can be further improved. However, if we want more, maybe it is better to use packages like <code>semTools</code> and <code>visreg</code>.</p>
+<p>P.S.: This post is based on a suggestion I posted to the Google Group for <code>lavaan</code>.</p>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>moderation</category>
+  <guid>https://blogonresearch.github.io/test_quarto/posts/plot_mod_ggplot2/index.html</guid>
+  <pubDate>Sat, 10 Sep 2022 16:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
