@@ -4,14 +4,14 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this blog"
+    "text": "This is a “revival” of an old blog of mine on psychological research and methodology (hence the name Blogonresearch). Just anything on research and methodology that are useful to me, and maybe also useful to others.\n– Shu Fai Cheung"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "test_quarto",
+    "title": "A Test Blog Using Quarto",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nDec 25, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nDec 22, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nSunday, December 25, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nThursday, December 22, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlotting Moderation Effects With ggplot2\n\n\n\n\n\n\n\nR\n\n\nmoderation\n\n\n\n\n\n\n\n\n\n\n\nSunday, September 11, 2022\n\n\nShu Fai Cheung\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -26,5 +26,12 @@
     "title": "Welcome To My Blog",
     "section": "",
     "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/plot_mod_ggplot2/index.html",
+    "href": "posts/plot_mod_ggplot2/index.html",
+    "title": "Plotting Moderation Effects With ggplot2",
+    "section": "",
+    "text": "There are some R packages that help researchers to plot moderation (interaction) effects: The linear relations between x (independent variable / predictor) and y (dependent variable / outcome variable) for two or more levels of w (moderator). For example, I have been using visreg for multiple regression models fitted by lm() for a long time. It is simple to use and supports both base R graphics and ggplot2. stdmod, which I maintained, also has the function plotmod for plotting simple effects in moderated regression. For structural equation modelling, semTools can be used to plot interaction for latent variables using plotProbe(). plotProbe() can also be used to on observed variables using this workaround.\nHowever, there may be case in which all we need is just two or more lines, and all we have are the simple effects: Two or more sets of intercepts of slopes.\nThis is how to plot the simple effect:\nSuppose we want to plot the simple effects of x on y conditional on w (the moderator). From the output of some functions, we have the slopes and intercepts when w is “Low” or “High”:\nw is “Low”: intercept = 2, slope = 1\nw is “High”: intercept = 3, slope = 2\nWrite a simple function to compute the points\n\n# Simple regression model\nxyline <- function(x, a, b) {a + b * x}\n\nSet the range for x:\n\n# Range of x\nx <- c(0, 10)\n\nCompute the predicted values of y at the lower and upper limit of the range of x, for each level of w, when all other predictors of y in the model, if any, are equal to zero:\n\n# Generate the two points when moderator = \"Low\"\ndat0 <- data.frame(Moderator = \"Low\",\n                   x = x,\n                   y = xyline(x, a = 2, b = 1))\n# Generate the two points when moderator = \"High\"\ndat1 <- data.frame(Moderator = \"High\",\n                   x = x,\n                   y = xyline(x, a = 3, b = 2))\n\nCombine the datasets:\n\ndat <- rbind(dat0, dat1)\ndat\n\n  Moderator  x  y\n1       Low  0  2\n2       Low 10 12\n3      High  0  3\n4      High 10 23\n\n\nDraw the lines using ggplot2:\n\nlibrary(ggplot2)\np <- ggplot(dat, aes(x = x, y = y, color = Moderator)) +\n            geom_line() +\n            scale_color_manual(values = c(\"Low\" = \"blue\", \"High\" = \"red\"))\np\n\n\n\n\n\n\n\n\nThis plot can then be modified as necessary:\n\np2 <- p + xlab(\"Independent Variable\") +\n          ylab(\"Dependent Variable\")\np2\n\n\n\n\n\n\n\n\nThis solution can be used for multiple regression or structural equation modelling.\nThough not as elegant as using packages devoted to plotting moderation effects, this solution may be good enough for some simple scenarios. I believe it can be further improved. However, if we want more, maybe it is better to use packages like semTools and visreg.\nP.S.: This post is based on a suggestion I posted to the Google Group for lavaan."
   }
 ]
